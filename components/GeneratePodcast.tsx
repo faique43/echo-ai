@@ -5,11 +5,41 @@ import { Button } from "./ui/button";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 
-const useGeneratePodcast = (props: GeneratePodcastProps) => {
-  return {
-    isGenerating: false,
-    generatePodcast: () => {}
+const useGeneratePodcast = ({
+  setAudio,
+  audio,
+  setAudioDuration,
+  voicePrompt,
+  setVoicePrompt,
+  voiceType
+}: GeneratePodcastProps) => {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const generatePodcast = async () => {
+    setIsGenerating(true);
+    setAudio("");
+
+    if (!voicePrompt) {
+      // todo: show error
+      setIsGenerating(false);
+      return;
+    }
+
+    try {
+      // const response = await api.generateAudio.post({
+      //   voiceType,
+      //   voicePrompt
+      // });
+      // setAudio(response.audioUrl);
+      setIsGenerating(false);
+    } catch (e) {
+      console.error(e);
+      setIsGenerating(false);
+      // todo: show error
+    }
   };
+
+  return { isGenerating, generatePodcast };
 };
 
 const GeneratePodcast = (props: GeneratePodcastProps) => {
